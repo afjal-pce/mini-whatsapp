@@ -24,7 +24,9 @@ io.on("connection", (socket) => {
     if (msg.toLowerCase() === "hello") {
       io.emit("chat message", "Hi there! 😊");
     }
-
+   if (msg.toLowerCase() === "afjal") {
+      io.emit("chat message", "Hi afjal! 😊");
+    }
     if (msg.toLowerCase() === "bye") {
       io.emit("chatak message", "Goodbye 👋");
     }
@@ -36,3 +38,4 @@ const PORT = process.env.PORT || 3000;
 http.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
+
