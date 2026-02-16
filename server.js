@@ -1,35 +1,28 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-const path = require("path");
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Render port
-const PORT = process.env.PORT || 3000;
+// public folder serve karega
+app.use(express.static("public"));
 
-// static files serve
-app.use(express.static(path.join(__dirname, "public")));
-
-// ROOT ROUTE FIX
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-// Socket connection
 io.on("connection", (socket) => {
   console.log("User connected");
 
   socket.on("chat message", (msg) => {
-    const text = msg.toLowerCase().trim();
+    console.log("Message:", msg);
 
-    // 🔥 Afjal auto reply
-    if (text.includes("afjal")) {
-      io.emit("chat message", "Afjal ka ghar Padman hai");
-    } else {
-      io.emit("chat message", msg);
+    // sab clients ko message bhejo
+    io.emit("chat message", msg);
+
+    // 🔥 Auto reply (sirf user message par)
+    if (msg.toLowerCase().trim() === "afjal") {
+      setTimeout(() => {
+        io.emit("chat message", "Afjal ka ghar Padman hai");
+      }, 500);
     }
   });
 
@@ -38,6 +31,7 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
+server.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
 });
+
