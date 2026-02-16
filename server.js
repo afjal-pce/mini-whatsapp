@@ -10,24 +10,31 @@ const io = socketIo(server);
 // Render port
 const PORT = process.env.PORT || 3000;
 
-// static files
+// static files serve
 app.use(express.static(path.join(__dirname, "public")));
 
-// root route fix
+// ROOT ROUTE FIX
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// socket logic
+// Socket connection
 io.on("connection", (socket) => {
+  console.log("User connected");
+
   socket.on("chat message", (msg) => {
     const text = msg.toLowerCase().trim();
 
+    // 🔥 Afjal auto reply
     if (text.includes("afjal")) {
       io.emit("chat message", "Afjal ka ghar Padman hai");
     } else {
       io.emit("chat message", msg);
     }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
   });
 });
 
