@@ -10,65 +10,52 @@ body {
   font-family: Arial;
   background: #ece5dd;
 }
+
 .container {
   display: flex;
+  flex-direction: column;
   height: 100vh;
 }
-.sidebar {
-  width: 30%;
-  background: #fff;
-  border-right: 1px solid #ccc;
-}
-.sidebar-header {
-  padding: 15px;
-  background: #075e54;
-  color: white;
-  font-size: 18px;
-}
-.chat-area {
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-}
-.chat-header {
+
+.header {
   background: #075e54;
   color: white;
   padding: 15px;
+  font-size: 20px;
 }
-.messages {
+
+.chat-box {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
-  background: #e5ddd5;
 }
-.msg {
+
+.message {
+  background: white;
   padding: 8px 12px;
   margin: 5px 0;
   border-radius: 8px;
-  max-width: 60%;
+  width: fit-content;
 }
-.sent {
-  background: #dcf8c6;
-  margin-left: auto;
-}
-.received {
-  background: white;
-}
+
 .input-box {
   display: flex;
-  border-top: 1px solid #ccc;
+  background: #ddd;
+  padding: 10px;
 }
+
 input {
   flex: 1;
   padding: 10px;
   border: none;
   outline: none;
 }
+
 button {
+  padding: 10px 15px;
+  border: none;
   background: #075e54;
   color: white;
-  border: none;
-  padding: 10px 15px;
   cursor: pointer;
 }
 </style>
@@ -77,50 +64,45 @@ button {
 <body>
 
 <div class="container">
-  <div class="sidebar">
-    <div class="sidebar-header">Mini WhatsApp</div>
-  </div>
+  <div class="header">Mini WhatsApp</div>
 
-  <div class="chat-area">
-    <div class="chat-header">Chat Bot</div>
-    <div id="messages" class="messages"></div>
+  <div id="chat" class="chat-box"></div>
 
-    <div class="input-box">
-      <input id="msg" placeholder="Type a message..." />
-      <button onclick="sendMessage()">Send</button>
-    </div>
+  <div class="input-box">
+    <input id="msg" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
   </div>
 </div>
 
-<!-- 🔥 Socket connection -->
 <script src="/socket.io/socket.io.js"></script>
 <script>
 const socket = io();
+const chat = document.getElementById("chat");
 
-// Send message to server
+function addMessage(msg) {
+  const div = document.createElement("div");
+  div.className = "message";
+  div.textContent = msg;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
 function sendMessage() {
-  let input = document.getElementById("msg");
-  let text = input.value.trim();
-  if (text === "") return;
+  const input = document.getElementById("msg");
+  const msg = input.value.trim();
+  if (!msg) return;
 
-  addMessage(text, "sent");
-  socket.emit("chat message", text);
+  socket.emit("chat message", msg);
   input.value = "";
 }
 
-// Receive message from server
-socket.on("chat message", function(msg) {
-  addMessage(msg, "received");
+// receive message
+socket.on("chat message", (msg) => {
+  addMessage(msg);
 });
-
-function addMessage(text, type) {
-  let div = document.createElement("div");
-  div.className = "msg " + type;
-  div.innerText = text;
-  document.getElementById("messages").appendChild(div);
-}
 </script>
 
 </body>
 </html>
+
 
