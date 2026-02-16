@@ -1,39 +1,29 @@
+
 const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
+
 const app = express();
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const server = http.createServer(app);
+const io = socketIo(server);
 
-// Serve static files
-app.use(express.static(__dirname));
+app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
-// 🔥 Chat logic
 io.on("connection", (socket) => {
-  console.log("User connected");
-
   socket.on("chat message", (msg) => {
-    io.emit("chat message", msg);
+    const text = msg.toLowerCase().trim();
 
-    // 🔥 AUTO REPLY (SERVER SIDE)
-    if (msg.toLowerCase() === "rahul") {
-      io.emit("chat message", "Hello Rahul 👋");
+    // 🔥 Afjal related koi bhi question
+    if (text.includes("afjal")) {
+      io.emit("chat message", "Afjal ka ghar Padman hai");
     }
-
-    if (msg.toLowerCase() === "afjal") {
-      io.emit("chat message", "Afjal ka ghar Padman hai 😎");
-    }
-
-    if (msg.toLowerCase() === "hi") {
-      io.emit("chat message", "Hello 🙂");
+    else {
+      // normal message show
+      io.emit("chat message", msg);
     }
   });
 });
 
-// Start server
-const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
+server.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
 });
