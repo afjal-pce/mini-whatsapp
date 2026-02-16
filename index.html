@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mini WhatsApp</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #ece5dd;
+}
+
+/* Layout */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* LEFT PANEL */
+.sidebar {
+  width: 30%;
+  background: #fff;
+  border-right: 1px solid #ccc;
+}
+
+.sidebar-header {
+  padding: 15px;
+  background: #075e54;
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+/* RIGHT PANEL */
+.chat-area {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  background: #075e54;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
+}
+
+.messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background: #e5ddd5;
+}
+
+.msg {
+  padding: 8px 12px;
+  margin: 5px 0;
+  border-radius: 8px;
+  max-width: 60%;
+}
+
+.sent {
+  background: #dcf8c6;
+  margin-left: auto;
+}
+
+.received {
+  background: white;
+}
+
+.input-box {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+button {
+  background: #075e54;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LEFT SIDE -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img src="logo.png" class="logo"> Mini WhatsApp
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="chat-area">
+
+    <div class="chat-header">Bhoot</div>
+
+    <div id="messages" class="messages"></div>
+
+    <div class="input-box">
+      <input id="msg" placeholder="Type a message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function sendMessage() {
+  let input = document.getElementById("msg");
+  let text = input.value.trim();
+  if (text === "") return;
+
+  addMessage(text, "sent");
+  input.value = "";
+
+  setTimeout(() => {
+    let reply = getAutoReply(text);
+    addMessage(reply, "received");
+  }, 700);
+}
+
+function addMessage(text, type) {
+  let div = document.createElement("div");
+  div.className = "msg " + type;
+  div.innerText = text;
+  document.getElementById("messages").appendChild(div);
+}
+
+function getAutoReply(msg) {
+  msg = msg.toLowerCase().trim();
+
+	if (msg.includes("time"))
+    return "Abhi time dekh lo phone me ⏰";
+  
+  if (msg.includes("hello") || msg.includes("hi"))
+    return "Hello 😊";
+
+  if (msg.includes("kaise"))
+    return "Main badhiya hu 😎";
+
+  if (msg.includes("naam"))
+    return "Main Chat Bot hoon 🤖";
+
+  if (msg.includes("namaste") || msg.includes("नमस्ते"))
+    return "नमस्ते 🙏";
+	
+		if(msg.includes("furkan"))
+return "furkan pdman gaw ka rhne wala ek ldka h";
+
+  if (msg.includes("bye"))
+    return "Bye 👋";
+
+if(msg.includes("rahul"))
+return"pce stuedent"
+if(msg.includes("जावेद"))
+return"जावेद बिहार के पड़मान गाँव में रहता था|जावेद को बचपन से ही क्रिकेट खेलने का शौक था। वह अपने गाँव के खाली मैदान में दोस्तों के साथ टेनिस बॉल से क्रिकेट खेलता और खुद को बड़ा खिलाड़ी बनने का सपना देखता था।"
+  return "Samajh nahi aaya 🤔";
+}
+</script>
+
+</body>
+</html>
