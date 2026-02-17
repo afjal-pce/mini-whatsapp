@@ -27,15 +27,6 @@ body {
   background: #075e54;
   color: white;
   font-size: 18px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
 }
 
 .chat-area {
@@ -48,7 +39,6 @@ body {
   background: #075e54;
   color: white;
   padding: 15px;
-  font-size: 18px;
 }
 
 .messages {
@@ -76,22 +66,19 @@ body {
 
 .input-box {
   display: flex;
-  border-top: 1px solid #ccc;
 }
 
 input {
   flex: 1;
   padding: 10px;
   border: none;
-  outline: none;
 }
 
 button {
   background: #075e54;
   color: white;
   border: none;
-  padding: 10px 15px;
-  cursor: pointer;
+  padding: 10px;
 }
 </style>
 </head>
@@ -99,16 +86,12 @@ button {
 <body>
 
 <div class="container">
-
   <div class="sidebar">
-    <div class="sidebar-header">
-      <img src="logo.png" class="logo"> Mini WhatsApp
-    </div>
+    <div class="sidebar-header">Mini WhatsApp</div>
   </div>
 
   <div class="chat-area">
     <div class="chat-header">Chat Bot</div>
-
     <div id="messages" class="messages"></div>
 
     <div class="input-box">
@@ -116,7 +99,6 @@ button {
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
-
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
