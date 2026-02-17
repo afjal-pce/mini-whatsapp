@@ -1,6 +1,7 @@
 {
   "name": "mini-whatsapp",
   "version": "1.0.0",
+  "description": "Mini WhatsApp Chat App",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
