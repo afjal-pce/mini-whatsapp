@@ -36,6 +36,8 @@ io.on("connection", (socket) => {
       reply = "नमस्ते 🙏";
     else if (text.includes("bye"))
       reply = "Bye 👋";
+       else if (text.includes("hasan"))
+      reply = "rahul ka bhatija";
     else if (text.includes("afjal"))
       reply = "Afjal ka ghar Padman hai";
 
@@ -46,4 +48,5 @@ io.on("connection", (socket) => {
 server.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
+
 
